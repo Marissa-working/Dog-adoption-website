@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dog Adoption Home Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+    .w3-bar-block .w3-bar-item {padding:20px}
+   
+
+.container {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.search-form {
+    position: relative;
+    z-index: 1;
+    background-color: #C5BDB3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+.search-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #34362D;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Optionally, you can add some media queries to make the form responsive */
+@media screen and (max-width: 600px) {
+    .search-form {
+        max-width: 90%;
+    }
+}
+    </style>
+  </head>
+<body>
+    
+<div class="container">
+        <form action="/search" method="post" class="search-form">
+            <label for="zipcode", style="font-size: 20px;">Enter your zipcode:</label>
+            <input type="text" id="zipcode" name="zipcode" placeholder="Your zipcode" required>
+             <br> 
+             <br> 
+             <br>
+            <label for="location", style="font-size: 20px;">Enter your location:</label>
+            <input type="text" id="city" name="city" placeholder="Enter the city" required>
+            <br>
+            <br>
+            <input type="text" id="state" name="state" placeholder="Enter the state." required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+  
+
+<!-- Top menu -->
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+    <div class="w3-right w3-padding-16">Mail</div>
+    <div class="w3-center w3-padding-16">Dog adoption</div>
+  </div>
+</div>
+  
+
+<!-- Insert Section -->
+<div class="w3-container w3-padding-32 w3-center" > 
+  <h2>Insert Dog Info</h2>
+  <form action="/submit_dog" method="post" class="w3-center" style="text-align: left;">
+    <label for="id" class="form-label">Dog ID:</label>
+    <input type="text" id="id" name="id" required><br>
+
+    <label for="org_id" class="form-label">Dog Shelter Organization ID:</label>
+    <input type="text" id="org_id" name="org_id" required><br>
+
+    <label for="contact_city" class="form-label">Contact City:</label>
+    <input type="text" id="contact_city" name="contact_city" required><br>
+
+    <label for="url" class="form-label">URL:</label>
+    <input type="text" id="url" name="url" required><br>
+
+    <label for="breed_primary" class="form-label">Primary Breed:</label>
+    <input type="text" id="breed_primary" name="breed_primary" required><br>
+
+    <label for="age" class="form-label">Dog Age:</label>
+    <input type="text" id="age" name="age" required><br>
+
+    <label for="sex" class="form-label">Dog Sex:</label>
+    <input type="text" id="sex" name="sex" required><br>
+
+    <label for="size" class="form-label">Dog Size:</label>
+    <input type="text" id="size" name="size" required><br>
+
+    <label for="house_trained" class="form-label">Whether the dog is House Trained (True or False):</label>
+    <input type="text" id="house_trained" name="house_trained" required><br>
+
+    <label for="shots_current" class="form-label">Whether the dog is Shots Currently (True or False):</label>
+    <input type="text" id="shots_current" name="shots_current" required><br>
+
+    <label for="name" class="form-label">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="description" class="form-label">Dog Description:</label>
+    <input type="text" id="description" name="description" required><br><br>
+
+    <button type="submit">Submit Dog Info</button>
+  </form>
+</div>
+
+    <!-- Insert Requirements Section -->
+<div class="w3-container w3-padding-32 w3-center">
+  <h2>Add Dog Adoption State Requirements</h2>
+  <form action="/submit_requirements" method="post">
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" required>
+    <br>
+    <label for="requirement">Requirement Description:</label>
+    <input type="text" id="requirement" name="requirement" required>
+    <br>
+    <label for="age">Adoptor Age:</label>
+    <input type="text" id="age" name="age" required>
+    <br><br>
+    <button type="submit">Submit Requirements</button>
+  </form>
+</div>
+
+<!-- Insert Shelter Section -->
+<div class="w3-container w3-padding-32 w3-center">
+  <h2>Add Shelter Info</h2>
+  <form action="/submit_shelter" method="post">
+   
+    <label for="org_id">Dog Shelter Organization ID:</label>
+    <input type="text" id="org_id" name="org_id" required>
+    <br>
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" required>
+    <br>
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required>
+    <br>
+    <label for="zip">Zipcode:</label>
+    <input type="text" id="zip" name="zip" required>
+    <br><br>
+    <button type="submit">Submit Shelter Info</button>
+  </form>
+</div>
+
+
+
+
+  <hr id="about">
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32 w3-center">  
+    <h3>About us</h3>
+    <div class="w3-padding-8">
+      <h4><b>Dogs friends are waiting!</b></h4>
+      <h6><i>All the benefits of adopting from Best Friends</i></h6>
+      <p>When you adopt an animal from Best Friends, sharing your life with an amazing new companion is just the beginning.<br>
+          As a new adopter, you become part of an extraordinary community of people devoted to their own pets — and to saving the lives of others.<br>
+          Indeed, you become part of the Best Friends family. <br>
+
+We’re with you every step of the way to provide guidance and answer questions as your pet adjusts to being in a new home. </p>
+        <img src="https://i.imgur.com/LW0NMQp.jpeg" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">
+    </div>
+  </div>
+  <hr>
+  
+
+
+
+   
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Selected Dog shot False</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+    .w3-bar-block .w3-bar-item {padding:20px}
+   
+
+.container {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.search-form {
+    position: relative;
+    z-index: 1;
+    background-color: #C5BDB3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+.search-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #34362D;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Optionally, you can add some media queries to make the form responsive */
+@media screen and (max-width: 600px) {
+    .search-form {
+        max-width: 90%;
+    }
+}
+    </style>
+  </head>
+<body>
+    
+<div class="container">
+        <form action="/search" method="post" class="search-form">
+            <label for="zipcode", style="font-size: 20px;">Enter your zipcode:</label>
+            <input type="text" id="zipcode" name="zipcode" placeholder="Your zipcode" required>
+             <br> 
+             <br> 
+             <br>
+            <label for="location", style="font-size: 20px;">Enter your location:</label>
+            <input type="text" id="city" name="city" placeholder="Enter the city" required>
+            <br>
+            <br>
+            <input type="text" id="state" name="state" placeholder="Enter the state." required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+  
+  
+
+<!-- Top menu -->
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+    <div class="w3-right w3-padding-16">Mail</div>
+    <div class="w3-center w3-padding-16">Selected Dog Information</div>
+  </div>
+</div>
+   
+    
+ <!-- Second row-->
+    <br>
+    <div class="w3-row-padding w3-padding-16 w3-center">
+    <h2>The selected dog</h2>
+      <h6>The dog has not been vaccinated recently. So you need to read state government vaccination requirement provided below and find clinics nearby to have your dog vaccinated.</h6>
+    <h6>Name: {{ request.args.get('name') }}</h6>
+    <h6>Breed: {{ request.args.get('breed') }}</h6>
+    <h6>Size: {{ request.args.get('size') }}</h6>
+    <h6>Age: {{ request.args.get('age') }}</h6>
+    <h6>Description: {{ request.args.get('description') }}</h6>
+      </div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:50px">
+
+  <!-- First Photo Grid-->
+  <div class="w3-row-padding w3-padding-16 w3-center" id="government">
+    <h2>Results from dog adoption state government vaccination requirement</h2>
+    <ul>
+        {% for result in governments_results %}
+            <li>
+                <strong>State:</strong> {{ result[0] }}<br>
+                <strong>Requirement Description:</strong> {{ result[1] }}<br>
+                <strong>Adoptor Age Requirement:</strong> {{ result[2] }}
+            </li>
+        {% endfor %}
+    </ul>
+    <p style="font-size: 20px;">Please follow the state government vaccination requirement to get a smooth dog adoption experience.</p>
+  </div>
+  
+ <!-- Third row -->
+<br>
+<div class="w3-row-padding w3-padding-16 w3-center">
+    <h2>Clinics nearby</h2>
+    <button type="button" onclick="sortClinicsByReview()">Sort by Customer Review</button>
+    <ul id="clinicsList">
+        {% for result in clinics_results %}
+             <li>
+                 <strong>Rating:</strong> {{ result[5] }}<br>
+                <strong>Clinics Name:</strong> {{ result[0] }}<br>
+                <strong>Service Catalog:</strong> {{ result[1] }}<br>
+                <strong>Location:</strong> {{ result[2] }}, {{ result[3] }} {{ result[4] }}
+                 <br>
+                 <br>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Fourth row -->
+<br>
+<div class="w3-row-padding w3-padding-16 w3-center">
+    <h2>Pet Care Stores nearby</h2>
+    <button type="button" onclick="sortPetStoresByReview()">Sort by Customer Review</button>
+    <ul id="petStoresList">
+        {% for result in pet_stores_results %}
+             <li>
+                 <strong>Rating:</strong> {{ result[5] }}<br>
+                <strong>Pet Care Store Name:</strong> {{ result[0] }}<br>
+                <strong>Service Catalog:</strong> {{ result[1] }}<br>
+                <strong>Location:</strong> {{ result[2] }}, {{ result[3] }} {{ result[4] }}
+                 <br>
+                <br>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+  
+  <hr id="about">
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32 w3-center">  
+    <h3>About us</h3>
+    <div class="w3-padding-8">
+      <h4><b>Dogs friends are waiting!</b></h4>
+      <h6><i>All the benefits of adopting from Best Friends</i></h6>
+      <p>When you adopt an animal from Best Friends, sharing your life with an amazing new companion is just the beginning.<br>
+          As a new adopter, you become part of an extraordinary community of people devoted to their own pets — and to saving the lives of others.<br>
+          Indeed, you become part of the Best Friends family. <br>
+
+We’re with you every step of the way to provide guidance and answer questions as your pet adjusts to being in a new home. </p>
+        <img src="https://www.pexels.com/photo/two-yellow-labrador-retriever-puppies-1108099/" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">
+    </div>
+  </div>
+  <hr>
+<script>
+    function sortPetStoresByReview() {
+        // Send an AJAX request to the server to sort the pet stores by customer review
+        // Replace "/api/sort_pet_stores" with the actual URL of your API endpoint for sorting pet stores
+        // The server should return the sorted pet stores data
+        fetch("/api/sort_pet_stores")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Update the displayed data with the sorted pet stores data
+                const petStoresList = document.getElementById("petStoresList");
+                petStoresList.innerHTML = "";
+                data.forEach(store => {
+                    const li = document.createElement("li");
+                    li.innerText = `Rating: ${store["Rating"]}, Pet Care Store Name: ${store["Name"]}, Service Catalog: ${store["Catalog"]}`;
+                    petStoresList.appendChild(li);
+                });
+            });
+    }
+
+    function sortClinicsByReview() {
+        // Send an AJAX request to the server to sort the clinics by customer review
+        // Replace "/api/sort_clinics" with the actual URL of your API endpoint for sorting clinics
+        // The server should return the sorted clinics data
+        fetch("/api/sort_clinics")
+            .then(response => response.json())
+            .then(data => {
+                // Update the displayed data with the sorted clinics data
+                const clinicsList = document.getElementById("clinicsList");
+                clinicsList.innerHTML = "";
+                data.forEach(clinic => {
+                    const li = document.createElement("li");
+                    li.innerText = `Rating: ${clinic["Rating"]}, Clinic Store Name: ${clinic["Name"]}, Service Catalog: ${clinic["Catalog"]}`;
+                    clinicsList.appendChild(li);
+                });
+            });
+    }
+</script>
+
+   
+</body>
+</html>

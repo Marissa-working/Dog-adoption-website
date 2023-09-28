@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dog Search Result Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+    .w3-bar-block .w3-bar-item {padding:20px}
+   
+
+.container {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.search-form {
+    position: relative;
+    z-index: 1;
+    background-color: #C5BDB3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+.search-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #34362D;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+        
+.output-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 300px;
+      height: 100px;
+      overflow-y: auto; /* Add scroll bar if the content overflows */
+    }
+/* Optionally, you can add some media queries to make the form responsive */
+@media screen and (max-width: 600px) {
+    .search-form {
+        max-width: 90%;
+    }
+}
+    </style>
+  </head>
+<body>
+    
+<div class="container">
+    <form action="/search" method="post" class="search-form">
+        <label for="zipcode", style="font-size: 20px;">Enter your zipcode:</label>
+        <input type="text" id="zipcode" name="zipcode" placeholder="{{ zipcode }}" required>
+        <br>
+        <br>
+        <br>
+        <label for="location", style="font-size: 20px;">Enter your location:</label>
+        <input type="text" id="city" name="city" placeholder="{{ city }}" required>
+        <br>
+        <br>
+        <input type="text" id="state" name="state" placeholder="{{ state }}" required>
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+
+  
+  
+
+<!-- Top menu -->
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+    <div class="w3-right w3-padding-16">Mail</div>
+    <div class="w3-center w3-padding-16">Dog adoption Search Result</div>
+  </div>
+</div>
+  
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:50px">
+  
+  <!-- Second row-->
+    <div class="w3-row-padding w3-padding-16 w3-center">
+    <h2>Dogs nearby</h2>
+      </div>
+<div class="w3-col w3-container w3-center" style="width: 20%;height: 400px;border-radius: 8px;background-color: #7F6353; color: #E0DCD9;">
+            <form class="w3-container">
+                <h2>Sort</h2>
+                <label for="sex">Sex:</label>
+                <input type="text" id="sex" name="sex">
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed">
+                <label for="size">Size:</label>
+                <input type="text" id="size" name="size">
+                <label for="age">Age:</label>
+                <input type="text" id="age" name="age">
+                <button type="button" onclick="sortResults()">Sort</button>
+            </form>
+        </div>
+
+        <!-- Right area (80% width) -->
+        <div class="w3-col w3-container w3-center" style="width: 80%;height: 400px;overflow-y: auto;border-radius: 8px;background-color: #C5BDB3;" id="results-area">
+            <ul>
+                {% for result in dogs_results %}
+                    <li>
+                <a href="/next_page?dogInfo={{ result }}">
+                    {{ result}}
+                </a>
+                        <br>
+                        <br>
+            </li>
+                {% endfor %}
+            </ul>
+                </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    
+ 
+    
+  <hr id="about">
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-300 w3-center">  
+    <h3>About us</h3>
+    <div class="w3-padding-8">
+      <h4><b>Dogs friends are waiting!</b></h4>
+      <h6><i>All the benefits of adopting from Best Friends</i></h6>
+      <p>When you adopt an animal from Best Friends, sharing your life with an amazing new companion is just the beginning.<br>
+          As a new adopter, you become part of an extraordinary community of people devoted to their own pets — and to saving the lives of others.<br>
+          Indeed, you become part of the Best Friends family. <br>
+
+We’re with you every step of the way to provide guidance and answer questions as your pet adjusts to being in a new home. </p>
+        <img src="https://i.imgur.com/LW0NMQp.jpeg" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">
+    </div>
+  </div>
+  <hr>
+    
+<script>
+       function sortResults() {
+        // Get the input values
+        const sex = document.getElementById('sex').value;
+        const breed = document.getElementById('breed').value;
+        const size = document.getElementById('size').value;
+        const age = document.getElementById('age').value;
+
+        // Make a POST request to the server using AJAX
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                // Parse the JSON response from the server
+                const sortedResults = JSON.parse(this.responseText);
+
+                // Update the right area with the sorted results
+                const resultsArea = document.getElementById('results-area');
+                resultsArea.innerHTML = '<h2>Sorted Dogs</h2><ul>';
+                for (const result of sortedResults) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `Name: ${result.Name}, Breed: ${result.Breed}, Age: ${result.Age}, Shots_current: ${result.Shots_current}, Size: ${result.Size}, Description: ${result.Description}`;
+                    resultsArea.appendChild(li);
+                }
+                resultsArea.innerHTML += '</ul>';
+            }
+        };
+
+        // Construct the data to send to the server
+        let data = '';
+        if (sex !== '') {
+            data += `sex=${sex}&`;
+        }
+        if (breed !== '') {
+            data += `breed=${breed}&`;
+        }
+        if (size !== '') {
+            data += `size=${size}&`;
+        }
+        if (age !== '') {
+            data += `age=${age}&`;
+        }
+        // Remove the trailing '&' if data is not empty
+        data = data.slice(0, -1);
+
+        xhttp.open("POST", "/api/sort", true); // Replace "/api/sort" with the actual URL of your API endpoint
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(data);
+    }
+</script>
+   
+</body>
+</html>
